@@ -1,2 +1,4 @@
 # URL-Logger-Draft1
-Draft 1 of our School Project
+Proposal of our School Project
+From:
+https://developer.chrome.com/extensions/getstarted
