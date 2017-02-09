@@ -29,7 +29,7 @@ function buildPopupDom(divName, data) {
   }
 }
 
-// Search history to find up to ten links that a user has typed in,
+// Search history to find up to ten links that a user has visited,
 // and show those links in a popup.
 function buildTypedUrlList(divName) {
   // To look for history items visited in the last week,
@@ -70,13 +70,9 @@ function buildTypedUrlList(divName) {
   var urlToCount = {};
 
   // Callback for chrome.history.getVisits().  Counts the number of
-  // times a user visited a URL by typing the address.
+  // times a user visited a URL.
   var processVisits = function(url, visitItems) {
     for (var i = 0, ie = visitItems.length; i < ie; ++i) {
-      // Ignore items unless the user typed the URL.
-      //if (visitItems[i].transition != 'typed') {
-        //continue;
-      //}
 
       if (!urlToCount[url]) {
         urlToCount[url] = 0;
@@ -106,10 +102,10 @@ function buildTypedUrlList(divName) {
       return urlToCount[b] - urlToCount[a];
     });
 
-    buildPopupDom(divName, urlArray.slice(0, 10));
+    buildPopupDom(divName, urlArray.slice(0, 15));
   };
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  buildTypedUrlList("typedUrl_div");
+  buildTypedUrlList("visitedUrl_div");
 });
