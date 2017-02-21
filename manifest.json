@@ -3,10 +3,10 @@
 
   "name": "Url-Logger",
   "description": "This extension tracks the history of user-visited URLs",
-  "version": "1.0",
+  "version": "1.1",
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["mostvisited.js","insertdb.js"]
   },
   
   "browser_action": {
@@ -14,10 +14,12 @@
     "default_popup": "popup.html",
 	"default_title": "URL Logger"
   },
+  
   "permissions": [
     "activeTab",
 	"background",
 	"history",
-    "https://ajax.googleapis.com/"
+	"https://ajax.googleapis.com/",
+	"http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/*"
   ]
 }

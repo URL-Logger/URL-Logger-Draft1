@@ -1,16 +1,17 @@
 
 $(function (){
 
-    //Send login data
+    //Format login data
     var $username = $('#username');
     var $password = $('#password');
     $('#login').on('click', function() {
-        var login_info = {
-            username: $username.val(),
-            password: $password.val()
-        };
-        console.log('Username: ' + login_info.username + ' Password: ' + login_info.password);
+        var login_info = "user=" + $username.val() + "&" + "pass=" + $password.val();
 
-        //AJAX call goes here to send data to server API in order to validate login info
+        console.log(login_info);
+
+        //POST - Send login data to server-side script for processing
+        $.post('http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/login.php', login_info, function (message) {
+            console.log(message);
+        });
     });
 });

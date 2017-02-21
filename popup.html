@@ -10,7 +10,8 @@
             rel="stylesheet" />
       <script  type="application/javascript" src="http_code.jquery.com_jquery-2.0.0.js"></script>
       <script type="application/javascript" src="popup.js"></script>
-	  <script src='background.js'></script>
+	  <script src='mostvisited.js'></script>
+	  <script src='insertdb.js'></script>
   </head>
 
   <body>
@@ -19,8 +20,8 @@
       Username: <input type="text" name="username" maxlength="15" id="username" /> <br /> <br />
       Password: <input type="text" name="password" maxlength="15" id="password" /> <br /> <br />
     </form>
-    <div id="login">
-        <input type="button" value="Login" />
+    <div class="button-frame">
+        <input type="button" value="Login" id="login"/>
     </div>
 	<h2>Recently Visited URLs:</h2>
     <div id="visitedUrl_div"></div>
