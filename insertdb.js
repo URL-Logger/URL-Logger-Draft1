@@ -1,4 +1,4 @@
-function sendCurrentUrl(userid, url, urlid, urlvid, urlrid) {
+function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", 'http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_chrome.php', true);
 	
@@ -14,6 +14,8 @@ function sendCurrentUrl(userid, url, urlid, urlvid, urlrid) {
 	xhr.send(
 		'UserID=' + encodeURIComponent(userid) + 
 		'&URL=' + encodeURIComponent(url) +
+		'&Title=' + encodeURIComponent(title) +
+		'&Timestamp=' + encodeURIComponent(time) +
 		'&URLID=' + encodeURIComponent(urlid) +
 		'&URLVID=' + encodeURIComponent(urlvid) +
 		'&URLRID=' + encodeURIComponent(urlrid)); 
@@ -21,6 +23,17 @@ function sendCurrentUrl(userid, url, urlid, urlvid, urlrid) {
 
 var visits = [];
 var urls = [];
+var titles = [];
+
+function twoDigits(d) {
+    if(0 <= d && d < 10) return "0" + d.toString();
+    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    return d.toString();
+}
+
+Date.prototype.toMysqlFormat = function() {
+    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+};
 
 function genURLData() {
 	// To look for history items visited in the last week,
@@ -40,14 +53,15 @@ function genURLData() {
 		// For each history item, get details on all visits.
 		for (var i = 0; i < historyItems.length; ++i) {
 			var url = historyItems[i].url;
-			var processVisitsWithUrl = function(url) {
+			var title = historyItems[i].title;
+			var processVisitsWithUrl = function(url, title) {
 				// We need the url of the visited item to process the visit.
 				// Use a closure to bind the  url into the callback's args.
 				return function(visitItems) {
-					processVisits(url, visitItems);
+					processVisits(url, title, visitItems);
 				};
 			};
-			chrome.history.getVisits({url: url}, processVisitsWithUrl(url));
+			chrome.history.getVisits({url: url}, processVisitsWithUrl(url, title));
 			numRequestsOutstanding++;
 		}
 		if (!numRequestsOutstanding) {
@@ -57,9 +71,10 @@ function genURLData() {
 
 	// Callback for chrome.history.getVisits().  Counts the number of
 	// times a user visited a URL.
-	var processVisits = function(url, visitItems) {
+	var processVisits = function(url, title, visitItems) {
 		for (var i = 0, ie = visitItems.length; i < ie; ++i) {
 			urls.push(url);
+			titles.push(title);
 			visits.push(visitItems[i]);
 		}
 		// If this is the final outstanding call to processVisits(),
@@ -72,10 +87,29 @@ function genURLData() {
 
 	// This function is called when we have the final list of URls to display.
 	var onAllVisitsProcessed = function() {
-		 for (var i = 0, ie = visits.length; i < ie; ++i) {
-			var Data = '00000000001, ' + urls[i] + ', ' + visits[i].id + ', ' + visits[i].visitId + ', ' + visits[i].referringVisitId;
-			//console.log(Data);
-			//sendCurrentUrl('00000000001', urls[i], visits[i].id, visits[i].visitId, visits[i].referringVisitId);
+		var data = [];
+		for (var i = 0, ie = visits.length; i < ie; ++i) {
+			var form = {
+				partid: '00000000001', 
+				url: urls[i], 
+				title: titles[i], 
+				time: visits[i].visitTime, 
+				id: visits[i].id,
+				vid: visits[i].visitId, 
+				rid: visits[i].referringVisitId
+			};
+			data.push(form);
+		}
+		
+		data.sort(function(a, b) {
+			return a.time - b.time;
+		});
+		
+		for (var i = 0, ie = data.length; i < ie; ++i) { 
+			var d = new Date(data[i].time);
+			var send = d.toMysqlFormat();
+			//console.log(send);
+			//sendCurrentUrl(data[i].partid, data[i].url, data[i].title, send, data[i].id, data[i].vid, data[i].rid);
         } 
     };
 }
