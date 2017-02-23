@@ -1,4 +1,14 @@
-function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid) {
+$(function (){
+
+	$('#SendData').on('click', function() {
+	
+		genURLData(); 
+
+	});
+
+});
+
+function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid, trans) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", 'http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_chrome.php', true);
 	
@@ -18,12 +28,9 @@ function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid) {
 		'&Timestamp=' + encodeURIComponent(time) +
 		'&URLID=' + encodeURIComponent(urlid) +
 		'&URLVID=' + encodeURIComponent(urlvid) +
-		'&URLRID=' + encodeURIComponent(urlrid)); 
+		'&URLRID=' + encodeURIComponent(urlrid) +
+		'&Transition=' + encodeURIComponent(trans)); 
 }
-
-var visits = [];
-var urls = [];
-var titles = [];
 
 function twoDigits(d) {
     if(0 <= d && d < 10) return "0" + d.toString();
@@ -34,6 +41,11 @@ function twoDigits(d) {
 Date.prototype.toMysqlFormat = function() {
     return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
 };
+
+var visits = [];
+var urls = [];
+var titles = [];
+var trans = [];
 
 function genURLData() {
 	// To look for history items visited in the last week,
@@ -96,7 +108,8 @@ function genURLData() {
 				time: visits[i].visitTime, 
 				id: visits[i].id,
 				vid: visits[i].visitId, 
-				rid: visits[i].referringVisitId
+				rid: visits[i].referringVisitId,
+				tran: visits[i].transition
 			};
 			data.push(form);
 		}
@@ -109,9 +122,8 @@ function genURLData() {
 			var d = new Date(data[i].time);
 			var send = d.toMysqlFormat();
 			//console.log(send);
-			//sendCurrentUrl(data[i].partid, data[i].url, data[i].title, send, data[i].id, data[i].vid, data[i].rid);
+			sendCurrentUrl(data[i].partid, data[i].url, data[i].title, send, data[i].id, data[i].vid, data[i].rid, data[i].tran);
         } 
     };
 }
 
-genURLData(); 

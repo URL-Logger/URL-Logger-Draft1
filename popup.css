@@ -32,6 +32,19 @@ input[type="text"]{
     font-size: 16px;
 }
 
+#SendData{
+    background-color: whitesmoke;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    margin: auto;
+    /*text-decoration: none;*/
+    font-family: "Courier New";
+    /*display: inline-block;*/
+    font-size: 16px;
+}
+
 .button-frame{
     text-align: center;
     color: black;
