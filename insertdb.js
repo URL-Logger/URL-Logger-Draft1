@@ -1,16 +1,13 @@
 $(function (){
-
 	$('#SendData').on('click', function() {
-	
 		genURLData(); 
-
 	});
-
 });
 
 function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid, trans) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", 'http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_chrome.php', true);
+	xhr.open("POST", 
+		'http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/post_chrome.php', true);
 	
 	//Send the proper header information along with the request
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -39,7 +36,11 @@ function twoDigits(d) {
 }
 
 Date.prototype.toMysqlFormat = function() {
-    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth())
+								 + "-" + twoDigits(this.getUTCDate()) 
+								 + " " + twoDigits(this.getUTCHours()) 
+								 + ":" + twoDigits(this.getUTCMinutes())
+								 + ":" + twoDigits(this.getUTCSeconds());
 };
 
 var visits = [];
@@ -122,7 +123,9 @@ function genURLData() {
 			var d = new Date(data[i].time);
 			var send = d.toMysqlFormat();
 			//console.log(send);
-			sendCurrentUrl(data[i].partid, data[i].url, data[i].title, send, data[i].id, data[i].vid, data[i].rid, data[i].tran);
+			sendCurrentUrl(data[i].partid, data[i].url, 
+						   data[i].title, send, data[i].id, 
+						   data[i].vid, data[i].rid, data[i].tran);
         } 
     };
 }
