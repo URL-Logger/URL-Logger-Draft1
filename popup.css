@@ -19,20 +19,7 @@ input[type="text"]{
 }
 
 /* Button(s) */
-#login{
-    background-color: whitesmoke;
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    margin: auto;
-    /*text-decoration: none;*/
-    font-family: "Courier New";
-    /*display: inline-block;*/
-    font-size: 16px;
-}
-
-#SendData{
+#login, #clear, #SendData{
     background-color: whitesmoke;
     border: none;
     color: black;
