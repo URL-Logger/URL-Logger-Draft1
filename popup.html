@@ -9,8 +9,6 @@
       <link href="popup.css" type="text/css"
             rel="stylesheet" />
       <script  type="application/javascript" src="http_code.jquery.com_jquery-2.0.0.js"></script>
-      <script type="application/javascript" src="popup.js"></script>
-	  <script src='mostvisited.js'></script>
 	  <script src='insertdb.js'></script>
   </head>
 
@@ -18,15 +16,12 @@
     <h1>Url-Logger</h1>
     <form class="login-prompt">
       Username: <input type="text" name="username" maxlength="15" id="username" /> <br /> <br />
-      Password: <input type="text" name="password" maxlength="15" id="password" /> <br /> <br />
+      Password: <input type="password" name="password" maxlength="15" id="password" /> <br /> <br />
     </form>
     <div class="button-frame">
         <input type="button" value="Login" id="login"/>
-		<input type="button" value="Send Data" id="SendData"/>
 		<input type="button" value="Clear" id="clear"/>
     </div>
-	<h2>Most Recently Visited URLs:</h2>
-    <div id="visitedUrl_div"></div>
   </body>
 
 </html>

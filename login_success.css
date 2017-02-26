@@ -1,24 +1,12 @@
 h1{
     text-align: center;
     color: black;
-    font-size: 35px;
-    font-family: "Courier New";
-}
-/* Text input */
-input[type="password"], input[type="text"]{
-    border: 2px solid black;
-    border-radius: 4px;
-}
-.login-prompt{
-    text-align: center;
-    color: black;
-    font-size: 15px;
-    width: 400px;
+    font-size: 20px;
     font-family: "Courier New";
 }
 
 /* Button(s) */
-#login, #clear, #SendData{
+#SendData{
     background-color: whitesmoke;
     border: none;
     color: black;
@@ -30,9 +18,15 @@ input[type="password"], input[type="text"]{
 }
 
 .button-frame{
+    width: 500px;
     text-align: center;
+}
+
+/* Url history data */
+#visitedUrl_div {
     color: black;
-    font-size: 15px;
-    height: 80px;
+    text-align: center;
     font-family: "Courier New";
+    font-size: 16px;
+    width: 500px;
 }
