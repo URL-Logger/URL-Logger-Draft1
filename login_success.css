@@ -6,7 +6,7 @@ h1{
 }
 
 /* Button(s) */
-#SendData{
+#SendData, #Logout{
     background-color: whitesmoke;
     border: none;
     color: black;
@@ -16,12 +16,17 @@ h1{
     font-family: "Courier New";
     font-size: 16px;
 }
-
-.button-frame{
+.buttons{
     width: 500px;
-    text-align: center;
 }
-
+.Send-Data{
+    width: 250px;
+    float: left;
+}
+.Logout{
+    width: 98px;
+    float: right;
+}
 /* Url history data */
 #visitedUrl_div {
     color: black;

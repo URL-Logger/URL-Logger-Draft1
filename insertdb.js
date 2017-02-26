@@ -18,18 +18,30 @@ $(function (){
                 successPage();
             }
         });
-        $('.login-prompt')[0].reset();
+        $('.login-prompt')[0].reset();  //Clear when attempting to login
     });
     //Clear form elements when pressing 'clear'
     $('#clear').click(function () {
         $('.login-prompt')[0].reset();
     });
+    //Return to Login page
+    $('#Logout').click(function (){
+        logoutPage();
+    });
 });
 
 function successPage(){
-    location.href = 'login_success.html';
+    location.href = 'login_success.html';   //Transition to next page
+    chrome.browserAction.setPopup({         //Make the transition persistent
+        popup: "login_success.html"
+    });
 }
-
+function logoutPage(){
+    location.href = 'popup.html';
+    chrome.browserAction.setPopup({
+        popup: "popup.html"
+    });
+}
 
 
 $(function (){
