@@ -1,40 +1,68 @@
-$(function (){
+var ParticipantID = 0;
+var visits = [];
+var urls = [];
+var titles = [];
+var trans = [];
 
+var microP1H = 1000 * 60 * 60;
+var microP1D = 1000 * 60 * 60 * 24;
+
+function twoDigits(d) {
+    if(0 <= d && d < 10) return "0" + d.toString();
+    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    return d.toString();
+}
+
+Date.prototype.toMysqlFormat = function() {
+    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth())
+								 + "-" + twoDigits(this.getUTCDate()) 
+								 + " " + twoDigits(this.getUTCHours()) 
+								 + ":" + twoDigits(this.getUTCMinutes())
+								 + ":" + twoDigits(this.getUTCSeconds());
+};
+
+$(function (){
     //Format login data
     var $username = $('#username');
     var $password = $('#password');
     $('#login').on('click', function() {
         var login_info = "user=" + $username.val() + "&" + "pass=" + $password.val();
-
-        console.log(login_info);
-
+		
         //POST - Send login data to server-side script for processing
         $.post('http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/login.php', login_info, function (message) {
-            console.log(message);
-            /*if(message == 1){
-                /!*successPage();*!/
-            }*/
+            //console.log(message);
+			ParticipantID = message;
+			if(message == 1 || message == 2){
+                successPage();
+            }
         });
     });
     //Clear form elements when pressing 'clear'
     $('#clear').click(function () {
         $('.login-prompt')[0].reset();
     });
+	$('#SendData').on('click', function() {
+		//if (ParticipantID != 0) genURLData(); 
+		var hold = new Date();
+		hold = hold.toMysqlFormat();
+		var update_info = "partid=2&Timestamp=" + hold;
+		$.post('http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/postSync.php', update_info);
+	});
 });
 
 function successPage(){
-    /*chrome.browserAction.setPopup({
-        popup:"success.html"
-    });*/
+    location.href = 'login_success.html';   //Transition to next page
+    chrome.browserAction.setPopup({         //Make the transition persistent
+        popup: "login_success.html"
+    });
 }
 
-
-
-$(function (){
-	$('#SendData').on('click', function() {
-		genURLData(); 
-	});
-});
+function logoutPage(){
+    location.href = 'popup.html';
+    chrome.browserAction.setPopup({
+        popup: "popup.html"
+    });
+}
 
 function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid, trans) {
 	var xhr = new XMLHttpRequest();
@@ -60,25 +88,6 @@ function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid, trans) 
 		'&URLRID=' + encodeURIComponent(urlrid) +
 		'&Transition=' + encodeURIComponent(trans)); 
 }
-
-function twoDigits(d) {
-    if(0 <= d && d < 10) return "0" + d.toString();
-    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
-    return d.toString();
-}
-
-Date.prototype.toMysqlFormat = function() {
-    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth())
-								 + "-" + twoDigits(this.getUTCDate()) 
-								 + " " + twoDigits(this.getUTCHours()) 
-								 + ":" + twoDigits(this.getUTCMinutes())
-								 + ":" + twoDigits(this.getUTCSeconds());
-};
-
-var visits = [];
-var urls = [];
-var titles = [];
-var trans = [];
 
 function genURLData() {
 	// To look for history items visited in the last week,
@@ -135,7 +144,7 @@ function genURLData() {
 		var data = [];
 		for (var i = 0, ie = visits.length; i < ie; ++i) {
 			var form = {
-				partid: '00000000001', 
+				partid: ParticipantID, 
 				url: urls[i], 
 				title: titles[i], 
 				time: visits[i].visitTime, 
@@ -154,7 +163,6 @@ function genURLData() {
 		for (var i = 0, ie = data.length; i < ie; ++i) { 
 			var d = new Date(data[i].time);
 			var send = d.toMysqlFormat();
-			//console.log(send);
 			sendCurrentUrl(data[i].partid, data[i].url, 
 						   data[i].title, send, data[i].id, 
 						   data[i].vid, data[i].rid, data[i].tran);

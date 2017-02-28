@@ -20,7 +20,7 @@
 	"background",
 	"history",
 	"https://ajax.googleapis.com/",
-	"http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/*",
-	"<all_urls>"
+	"https://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/*",
+	"http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/*"
   ]
 }

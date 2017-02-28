@@ -2,11 +2,10 @@ h1{
     text-align: center;
     color: black;
     font-size: 35px;
-    height: 50px;
     font-family: "Courier New";
 }
 /* Text input */
-input[type="text"]{
+input[type="password"], input[type="text"]{
     border: 2px solid black;
     border-radius: 4px;
 }
@@ -14,7 +13,7 @@ input[type="text"]{
     text-align: center;
     color: black;
     font-size: 15px;
-    height: 80px;
+    width: 400px;
     font-family: "Courier New";
 }
 
@@ -26,9 +25,7 @@ input[type="text"]{
     padding: 10px 20px;
     text-align: center;
     margin: auto;
-    /*text-decoration: none;*/
     font-family: "Courier New";
-    /*display: inline-block;*/
     font-size: 16px;
 }
 
@@ -36,6 +33,6 @@ input[type="text"]{
     text-align: center;
     color: black;
     font-size: 15px;
-    height: 100px;
+    height: 80px;
     font-family: "Courier New";
 }
