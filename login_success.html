@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Success</title>
-        <link href="login_success.css" type="text/css"
-            rel="stylesheet" />
-        <script  type="application/javascript" src="http_code.jquery.com_jquery-2.0.0.js"></script>
-        <script src='mostvisited.js'></script>
+        <link href="login_success.css" type="text/css" rel="stylesheet" />
+		<link rel="stylesheet" 
+			  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script  type="application/javascript" src="jQuery.js"></script>
         <script src="insertdb.js"></script>
 </head>
 <body>
-    <h1>Most Recently Visited URLs:</h1>
-    <div id="visitedUrl_div"></div> <br />
+	<img src="Branding/utelem-text-logo-black-transparent.png" width="152" height="20">
+    <h1>URL Tracker</h1>
     <div class="Buttons">
-        <div class="Send-Data"> <input type="button" value="Send Data" id="SendData"/> </div>
-        <div class="Logout"> <input type ="button" value="Logout" id="Logout"/> </div>
+		<br/>
+		<div class="H1toH5">
+			<label>
+				<input type="checkbox" />
+				<span class="seatButton">&nbsp;<i class="fa fa-power-off"></i></span>
+			</label>
+		</div>
+		<br/>
+        <div class="Logout"> <input type ="button" value="Logout" id="Logout"/> 
     </div>
 </body>
 </html>

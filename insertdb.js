@@ -1,9 +1,12 @@
-var ParticipantID = 0;
 var visits = [];
 var urls = [];
 var titles = [];
 var trans = [];
+var ParticipantID = 0;
+var myTimer1, myTimer2;
+var myTimeout;
 
+var microP1M = 1000 * 60;
 var microP1H = 1000 * 60 * 60;
 var microP1D = 1000 * 60 * 60 * 24;
 
@@ -22,25 +25,6 @@ Date.prototype.toMysqlFormat = function() {
 };
 
 $(function (){
-    //Format login data
-    var $username = $('#username');
-    var $password = $('#password');
-    $('#login').on('click', function() {
-        var login_info = "user=" + $username.val() + "&" + "pass=" + $password.val();
-		
-        //POST - Send login data to server-side script for processing
-        $.post('http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/login.php', login_info, function (message) {
-            //console.log(message);
-			ParticipantID = message;
-			if(message == 1 || message == 2){
-                successPage();
-            }
-        });
-    });
-    //Clear form elements when pressing 'clear'
-    $('#clear').click(function () {
-        $('.login-prompt')[0].reset();
-    });
 	$('#SendData').on('click', function() {
 		//if (ParticipantID != 0) genURLData(); 
 		var hold = new Date();
@@ -48,19 +32,17 @@ $(function (){
 		var update_info = "partid=2&Timestamp=" + hold;
 		$.post('http://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/postSync.php', update_info);
 	});
+	//Return to Login page
+    $('#Logout').click(function (){
+        logoutPage();
+		clearTimeout(myTimeout);
+    });
 });
 
-function successPage(){
-    location.href = 'login_success.html';   //Transition to next page
-    chrome.browserAction.setPopup({         //Make the transition persistent
-        popup: "login_success.html"
-    });
-}
-
 function logoutPage(){
-    location.href = 'popup.html';
+    location.href = 'login.html';
     chrome.browserAction.setPopup({
-        popup: "popup.html"
+        popup: "login.html"
     });
 }
 
@@ -89,11 +71,10 @@ function sendCurrentUrl(userid, url, title, time, urlid, urlvid, urlrid, trans) 
 		'&Transition=' + encodeURIComponent(trans)); 
 }
 
-function genURLData() {
+function genURLData(time) {
 	// To look for history items visited in the last week,
-	// subtract a week of microseconds from the current time.
-	var microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-	var oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
+	// subtract the prefered time in microseconds from the current time.
+	var timeAgo = (new Date).getTime() - time;
 
 	// Track the number of callbacks from chrome.history.getVisits()
 	// that we expect to get.  When it reaches zero, we have all results.
@@ -101,7 +82,7 @@ function genURLData() {
 
 	chrome.history.search({
 		'text': '',              // Return every history item....
-		'startTime': oneWeekAgo  // that was accessed less than one week ago.
+		'startTime': timeAgo  // that was accessed less than one week ago.
 	},
 	function(historyItems) {
 		// For each history item, get details on all visits.
@@ -170,3 +151,16 @@ function genURLData() {
     };
 }
 
+function program(time) {
+	myTimeout = setTimeout(function(){ execute(time) }, time);
+	console.log('why');
+	
+	
+	
+}
+
+function execute(time) {
+	genURLData(time);
+	console.log("test");
+	program(time);
+}

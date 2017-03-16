@@ -1,24 +1,25 @@
 {
   "manifest_version": 2,
 
-  "name": "Url-Logger",
-  "description": "This extension tracks the history of user-visited URLs",
-  "version": "1.1",
+  "name": "Utelem URL Tracker",
+  "description": "This opt-in extension tracks the user's Chrome browser history.",
+  "version": "1.2",
 
   "background": {
-    "scripts": ["mostvisited.js","insertdb.js"]
+    "scripts": ["insertdb.js"]
   },
   
   "browser_action": {
-    "default_icon": "URL.jpg",
-    "default_popup": "popup.html",
-	"default_title": "URL Logger"
+    "default_icon": "Branding/Utelem-graphic-icon-blue-bk 2.png",
+    "default_popup": "login.html",
+	"default_title": "URL Tracker"
   },
   
   "permissions": [
     "activeTab",
 	"background",
 	"history",
+	"storage",
 	"https://ajax.googleapis.com/",
 	"https://Sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/*",
 	"http://sample-env.zssmubuwik.us-west-1.elasticbeanstalk.com/*"

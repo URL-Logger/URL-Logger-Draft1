@@ -15,14 +15,25 @@ h1{
 	background-color: #929596;
     font-family: myFirstFont;
 }
+ 
+input[type="password"], input[type="text"]{
+    border: 1px solid black;
+    border-radius: 2px;
+}
+.login-prompt{
+    text-align: center;
+    color: black;
+    font-size: 12px;
+    font-family: myFirstFont;
+}
 
-/* Button(s) */
-#Logout{
-	background-color: #929596;
+#login{
+    background-color: #929596;
     border: none;
     color: black;
-    padding: 1px 51px;
+    padding: 10px 20px;
     text-align: center;
+    margin: auto;
     font-family: myFirstFont;
     font-size: 16px;
 }
@@ -35,13 +46,10 @@ h1{
     font-family: myFirstFont;
 }
 
-.H1toH5 input { display: none; }
-.H1toH5 .seatButton {
-	border: none;
-    color: lightgrey;
-	padding: 7px;
-    font-size: 100px; 
-}
-.H1toH5 input:checked + .seatButton {
-	color: #3B65AF; 
+.link-frame{
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    height: 80px;
+    font-family: myFirstFont;
 }
